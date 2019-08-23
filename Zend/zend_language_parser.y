@@ -88,23 +88,23 @@ static YYSIZE_T zend_yytnamerr(char*, const char*);
 %token <ast> T_LNUMBER   "integer number (T_LNUMBER)"
 %token <ast> T_DNUMBER   "floating-point number (T_DNUMBER)"
 %token <ast> T_STRING    "identifier (T_STRING)"
-%token <ast> T_VARIABLE  "variable (T_VARIABLE)"
+%token <ast> T_VARIABLE  "variabel (T_VARIABLE)"
 %token <ast> T_INLINE_HTML
-%token <ast> T_ENCAPSED_AND_WHITESPACE  "quoted-string and whitespace (T_ENCAPSED_AND_WHITESPACE)"
-%token <ast> T_CONSTANT_ENCAPSED_STRING "quoted-string (T_CONSTANT_ENCAPSED_STRING)"
-%token <ast> T_STRING_VARNAME "variable name (T_STRING_VARNAME)"
-%token <ast> T_NUM_STRING "number (T_NUM_STRING)"
+%token <ast> T_ENCAPSED_AND_WHITESPACE  "string dikutip ambek whitespace (T_ENCAPSED_AND_WHITESPACE)"
+%token <ast> T_CONSTANT_ENCAPSED_STRING "string dikutip (T_CONSTANT_ENCAPSED_STRING)"
+%token <ast> T_STRING_VARNAME "jeneng variabel (T_STRING_VARNAME)"
+%token <ast> T_NUM_STRING "nomer (T_NUM_STRING)"
 
-%token END 0 "end of file"
-%token T_INCLUDE      "include (T_INCLUDE)"
-%token T_INCLUDE_ONCE "include_once (T_INCLUDE_ONCE)"
+%token END 0 "akhir teko file"
+%token T_INCLUDE      "lebokno (T_INCLUDE)"
+%token T_INCLUDE_ONCE "lebokno_pisan (T_INCLUDE_ONCE)"
 %token T_EVAL         "eval (T_EVAL)"
 %token T_REQUIRE      "require (T_REQUIRE)"
 %token T_REQUIRE_ONCE "require_once (T_REQUIRE_ONCE)"
 %token T_LOGICAL_OR   "or (T_LOGICAL_OR)"
 %token T_LOGICAL_XOR  "xor (T_LOGICAL_XOR)"
-%token T_LOGICAL_AND  "and (T_LOGICAL_AND)"
-%token T_PRINT        "print (T_PRINT)"
+%token T_LOGICAL_AND  "ambek (T_LOGICAL_AND)"
+%token T_PRINT        "cithak (T_PRINT)"
 %token T_YIELD        "yield (T_YIELD)"
 %token T_YIELD_FROM   "yield from (T_YIELD_FROM)"
 %token T_PLUS_EQUAL   "+= (T_PLUS_EQUAL)"
@@ -135,13 +135,13 @@ static YYSIZE_T zend_yytnamerr(char*, const char*);
 %token T_INT_CAST    "(int) (T_INT_CAST)"
 %token T_DOUBLE_CAST "(double) (T_DOUBLE_CAST)"
 %token T_STRING_CAST "(string) (T_STRING_CAST)"
-%token T_ARRAY_CAST  "(array) (T_ARRAY_CAST)"
+%token T_ARRAY_CAST  "(larik) (T_ARRAY_CAST)"
 %token T_OBJECT_CAST "(object) (T_OBJECT_CAST)"
 %token T_BOOL_CAST   "(bool) (T_BOOL_CAST)"
 %token T_UNSET_CAST  "(unset) (T_UNSET_CAST)"
-%token T_NEW       "new (T_NEW)"
+%token T_NEW       "anyar (T_NEW)"
 %token T_CLONE     "clone (T_CLONE)"
-%token T_EXIT      "exit (T_EXIT)"
+%token T_EXIT      "metu (T_EXIT)"
 %token T_IF        "if (T_IF)"
 %token T_ELSEIF    "elseif (T_ELSEIF)"
 %token T_ELSE      "else (T_ELSE)"
@@ -435,6 +435,8 @@ statement:
 	|	T_RETURN optional_expr ';'		{ $$ = zend_ast_create(ZEND_AST_RETURN, $2); }
 	|	T_GLOBAL global_var_list ';'	{ $$ = $2; }
 	|	T_STATIC static_var_list ';'	{ $$ = $2; }
+	|	T_VAR T_GLOBAL global_var_list ';'	{ $$ = $3; }
+	|	T_VAR T_STATIC static_var_list ';'	{ $$ = $3; }
 	|	T_ECHO echo_expr_list ';'		{ $$ = $2; }
 	|	T_INLINE_HTML { $$ = zend_ast_create(ZEND_AST_ECHO, $1); }
 	|	expr ';' { $$ = $1; }
@@ -500,9 +502,9 @@ is_variadic:
 ;
 
 class_declaration_statement:
-		class_modifiers T_CLASS { $<num>$ = CG(zend_lineno); }
+		T_CLASS class_modifiers { $<num>$ = CG(zend_lineno); }
 		T_STRING extends_from implements_list backup_doc_comment '{' class_statement_list '}'
-			{ $$ = zend_ast_create_decl(ZEND_AST_CLASS, $1, $<num>3, $7, zend_ast_get_str($4), $5, $6, $9, NULL); }
+			{ $$ = zend_ast_create_decl(ZEND_AST_CLASS, $2, $<num>3, $7, zend_ast_get_str($4), $5, $6, $9, NULL); }
 	|	T_CLASS { $<num>$ = CG(zend_lineno); }
 		T_STRING extends_from implements_list backup_doc_comment '{' class_statement_list '}'
 			{ $$ = zend_ast_create_decl(ZEND_AST_CLASS, 0, $<num>2, $6, zend_ast_get_str($3), $4, $5, $8, NULL); }
@@ -718,14 +720,14 @@ class_statement_list:
 class_statement:
 		variable_modifiers property_list ';'
 			{ $$ = $2; $$->attr = $1; }
-	|	method_modifiers T_CONST class_const_list ';'
-			{ $$ = $3; $$->attr = $1; }
+	|	T_CONST non_empty_member_modifiers class_const_list ';'
+			{ $$ = $3; $$->attr = $2; }
 	|	T_USE name_list trait_adaptations
 			{ $$ = zend_ast_create(ZEND_AST_USE_TRAIT, $2, $3); }
-	|	method_modifiers function returns_ref identifier backup_doc_comment '(' parameter_list ')'
+	|	function non_empty_member_modifiers identifier backup_doc_comment '(' parameter_list ')'
 		return_type backup_fn_flags method_body backup_fn_flags
-			{ $$ = zend_ast_create_decl(ZEND_AST_METHOD, $3 | $1 | $12, $2, $5,
-				  zend_ast_get_str($4), $7, NULL, $11, $9); CG(extra_fn_flags) = $10; }
+			{ $$ = zend_ast_create_decl(ZEND_AST_METHOD, $2 | $11, $1, $4,
+				  zend_ast_get_str($3), $6, NULL, $10, $8); CG(extra_fn_flags) = $9; }
 ;
 
 name_list:
@@ -786,12 +788,6 @@ method_body:
 variable_modifiers:
 		non_empty_member_modifiers		{ $$ = $1; }
 	|	T_VAR							{ $$ = ZEND_ACC_PUBLIC; }
-;
-
-method_modifiers:
-		/* empty */						{ $$ = ZEND_ACC_PUBLIC; }
-	|	non_empty_member_modifiers
-			{ $$ = $1; if (!($$ & ZEND_ACC_PPP_MASK)) { $$ |= ZEND_ACC_PUBLIC; } }
 ;
 
 non_empty_member_modifiers:

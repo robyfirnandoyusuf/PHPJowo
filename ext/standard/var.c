@@ -191,7 +191,7 @@ again:
 
 /* {{{ proto void var_dump(mixed var)
    Dumps a string representation of variable to output */
-PHP_FUNCTION(var_dump)
+PHP_FUNCTION(cok)
 {
 	zval *args;
 	int argc;

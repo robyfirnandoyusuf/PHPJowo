@@ -166,9 +166,9 @@ static const struct reserved_class_name reserved_class_names[] = {
 	{ZEND_STRL("float")},
 	{ZEND_STRL("int")},
 	{ZEND_STRL("null")},
-	{ZEND_STRL("parent")},
-	{ZEND_STRL("self")},
-	{ZEND_STRL("static")},
+	{ZEND_STRL("wongtuo")},
+	{ZEND_STRL("awakdewe")},
+	{ZEND_STRL("statis")},
 	{ZEND_STRL("string")},
 	{ZEND_STRL("true")},
 	{ZEND_STRL("void")},
@@ -1444,11 +1444,11 @@ static inline zend_bool class_name_refers_to_active_ce(zend_string *class_name, 
 
 uint32_t zend_get_class_fetch_type(zend_string *name) /* {{{ */
 {
-	if (zend_string_equals_literal_ci(name, "self")) {
+	if (zend_string_equals_literal_ci(name, "awakdewe")) {
 		return ZEND_FETCH_CLASS_SELF;
-	} else if (zend_string_equals_literal_ci(name, "parent")) {
+	} else if (zend_string_equals_literal_ci(name, "wongtuo")) {
 		return ZEND_FETCH_CLASS_PARENT;
-	} else if (zend_string_equals_literal_ci(name, "static")) {
+	} else if (zend_string_equals_literal_ci(name, "statis")) {
 		return ZEND_FETCH_CLASS_STATIC;
 	} else {
 		return ZEND_FETCH_CLASS_DEFAULT;
@@ -1471,8 +1471,8 @@ static void zend_ensure_valid_class_fetch_type(uint32_t fetch_type) /* {{{ */
 {
 	if (fetch_type != ZEND_FETCH_CLASS_DEFAULT && !CG(active_class_entry) && zend_is_scope_known()) {
 		zend_error_noreturn(E_COMPILE_ERROR, "Cannot use \"%s\" when no class scope is active",
-			fetch_type == ZEND_FETCH_CLASS_SELF ? "self" :
-			fetch_type == ZEND_FETCH_CLASS_PARENT ? "parent" : "static");
+			fetch_type == ZEND_FETCH_CLASS_SELF ? "awakdewe" :
+			fetch_type == ZEND_FETCH_CLASS_PARENT ? "wongtuo" : "statis");
 	}
 }
 /* }}} */
@@ -1517,7 +1517,7 @@ static zend_bool zend_try_compile_const_expr_resolve_class_name(zval *zv, zend_a
 			if (constant) {
 				zend_error_noreturn(E_COMPILE_ERROR,
 					"%s::class cannot be used for compile-time class name resolution",
-					fetch_type == ZEND_FETCH_CLASS_STATIC ? "static" : "parent"
+					fetch_type == ZEND_FETCH_CLASS_STATIC ? "statis" : "wongtuo"
 				);
 			} else {
 				ZVAL_NULL(zv);
@@ -2588,7 +2588,7 @@ static zend_bool is_this_fetch(zend_ast *ast) /* {{{ */
 {
 	if (ast->kind == ZEND_AST_VAR && ast->child[0]->kind == ZEND_AST_ZVAL) {
 		zval *name = zend_ast_get_zval(ast->child[0]);
-		return Z_TYPE_P(name) == IS_STRING && zend_string_equals_literal(Z_STR_P(name), "this");
+		return Z_TYPE_P(name) == IS_STRING && zend_string_equals_literal(Z_STR_P(name), "iki");
 	}
 
 	return 0;
@@ -4098,7 +4098,7 @@ void zend_compile_method_call(znode *result, zend_ast *ast, uint32_t type) /* {{
 
 static zend_bool zend_is_constructor(zend_string *name) /* {{{ */
 {
-	return zend_string_equals_literal_ci(name, ZEND_CONSTRUCTOR_FUNC_NAME);
+	return zend_string_equals_literal_ci(name, ZEND_CONSTRUCTOR_FUNC_NAME) || zend_string_equals_literal_ci(name, ZEND_KONSTRUKTOR_FUNC_NAME);
 }
 /* }}} */
 
@@ -4294,7 +4294,7 @@ static void zend_compile_static_var_common(zend_ast *var_ast, zval *value, uint3
 	}
 	value = zend_hash_update(CG(active_op_array)->static_variables, var_name, value);
 
-	if (zend_string_equals_literal(var_name, "this")) {
+	if (zend_string_equals_literal(var_name, "iki")) {
 		zend_error_noreturn(E_COMPILE_ERROR, "Cannot use $this as static variable");
 	}
 
@@ -5201,7 +5201,7 @@ void zend_compile_try(zend_ast *ast) /* {{{ */
 					zend_resolve_class_name_ast(class_ast));
 			opline->extended_value = zend_alloc_cache_slot();
 
-			if (zend_string_equals_literal(var_name, "this")) {
+			if (zend_string_equals_literal(var_name, "iki")) {
 				zend_error_noreturn(E_COMPILE_ERROR, "Cannot re-assign $this");
 			}
 
@@ -5554,7 +5554,7 @@ void zend_compile_params(zend_ast *ast, zend_ast *return_type_ast) /* {{{ */
 		if (EX_VAR_TO_NUM(var_node.u.op.var) != i) {
 			zend_error_noreturn(E_COMPILE_ERROR, "Redefinition of parameter $%s",
 				ZSTR_VAL(name));
-		} else if (zend_string_equals_literal(name, "this")) {
+		} else if (zend_string_equals_literal(name, "iki")) {
 			zend_error_noreturn(E_COMPILE_ERROR, "Cannot use $this as parameter");
 		}
 
@@ -5725,7 +5725,7 @@ static void zend_compile_closure_binding(znode *closure, zend_op_array *op_array
 		zend_op *opline;
 		zval *value;
 
-		if (zend_string_equals_literal(var_name, "this")) {
+		if (zend_string_equals_literal(var_name, "iki")) {
 			zend_error_noreturn(E_COMPILE_ERROR, "Cannot use $this as lexical variable");
 		}
 
@@ -5879,7 +5879,7 @@ void zend_begin_method_decl(zend_op_array *op_array, zend_string *name, zend_boo
 			if (!is_static) {
 				op_array->fn_flags |= ZEND_ACC_ALLOW_STATIC;
 			}
-		} else if (zend_string_equals_literal(lcname, ZEND_CONSTRUCTOR_FUNC_NAME)) {
+		} else if (zend_string_equals_literal(lcname, ZEND_CONSTRUCTOR_FUNC_NAME) || zend_string_equals_literal(lcname, ZEND_KONSTRUKTOR_FUNC_NAME)) {
 			ce->constructor = (zend_function *) op_array;
 		} else if (zend_string_equals_literal(lcname, ZEND_DESTRUCTOR_FUNC_NAME)) {
 			ce->destructor = (zend_function *) op_array;

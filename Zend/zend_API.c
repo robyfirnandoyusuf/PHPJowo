@@ -2237,7 +2237,7 @@ ZEND_API int zend_register_functions(zend_class_entry *scope, const zend_functio
 					if (type_name[0] == '?') {
 						type_name++;
 					}
-					if (!scope && (!strcasecmp(type_name, "self") || !strcasecmp(type_name, "parent"))) {
+					if (!scope && (!strcasecmp(type_name, "awakdewe") || !strcasecmp(type_name, "wongtuo"))) {
 						zend_error_noreturn(E_CORE_ERROR, "Cannot declare a return type of %s outside of a class scope", type_name);
 					}
 				}
@@ -2340,7 +2340,7 @@ ZEND_API int zend_register_functions(zend_class_entry *scope, const zend_functio
 				ctor = reg_function;
 			} else if (ZSTR_VAL(lowercase_name)[0] != '_' || ZSTR_VAL(lowercase_name)[1] != '_') {
 				reg_function = NULL;
-			} else if (zend_string_equals_literal(lowercase_name, ZEND_CONSTRUCTOR_FUNC_NAME)) {
+			} else if (zend_string_equals_literal(lowercase_name, ZEND_CONSTRUCTOR_FUNC_NAME) || zend_string_equals_literal(lowercase_name, ZEND_KONSTRUKTOR_FUNC_NAME)) {
 				ctor = reg_function;
 			} else if (zend_string_equals_literal(lowercase_name, ZEND_DESTRUCTOR_FUNC_NAME)) {
 				dtor = reg_function;
@@ -2915,9 +2915,9 @@ static int zend_is_callable_check_class(zend_string *name, zend_class_entry *sco
 	zend_str_tolower_copy(ZSTR_VAL(lcname), ZSTR_VAL(name), name_len);
 
 	*strict_class = 0;
-	if (zend_string_equals_literal(lcname, "self")) {
+	if (zend_string_equals_literal(lcname, "awakdewe")) {
 		if (!scope) {
-			if (error) *error = estrdup("cannot access self:: when no class scope is active");
+			if (error) *error = estrdup("ora iso ngakses awakedewe:: lek ngga ndek njero kelas");
 		} else {
 			fcc->called_scope = zend_get_called_scope(EG(current_execute_data));
 			fcc->calling_scope = scope;
@@ -2926,11 +2926,11 @@ static int zend_is_callable_check_class(zend_string *name, zend_class_entry *sco
 			}
 			ret = 1;
 		}
-	} else if (zend_string_equals_literal(lcname, "parent")) {
+	} else if (zend_string_equals_literal(lcname, "wongtuo")) {
 		if (!scope) {
-			if (error) *error = estrdup("cannot access parent:: when no class scope is active");
+			if (error) *error = estrdup("ora iso ngakses wongtuo:: lek ora ndek njerone kelas");
 		} else if (!scope->parent) {
-			if (error) *error = estrdup("cannot access parent:: when current class scope has no parent");
+			if (error) *error = estrdup("ora iso ngakses wongtuo:: lek kelas iki ora ndek njerone wongtuo");
 		} else {
 			fcc->called_scope = zend_get_called_scope(EG(current_execute_data));
 			fcc->calling_scope = scope->parent;
@@ -2940,7 +2940,7 @@ static int zend_is_callable_check_class(zend_string *name, zend_class_entry *sco
 			*strict_class = 1;
 			ret = 1;
 		}
-	} else if (zend_string_equals_literal(lcname, "static")) {
+	} else if (zend_string_equals_literal(lcname, "statis")) {
 		zend_class_entry *called_scope = zend_get_called_scope(EG(current_execute_data));
 
 		if (!called_scope) {
@@ -3085,7 +3085,7 @@ static zend_always_inline int zend_is_callable_check_func(int check_flags, zval 
 	lmname = zend_string_tolower(mname);
 	if (strict_class &&
 	    fcc->calling_scope &&
-		zend_string_equals_literal(lmname, ZEND_CONSTRUCTOR_FUNC_NAME)) {
+		(zend_string_equals_literal(lmname, ZEND_CONSTRUCTOR_FUNC_NAME) || zend_string_equals_literal(lmname, ZEND_KONSTRUKTOR_FUNC_NAME))) {
 		fcc->function_handler = fcc->calling_scope->constructor;
 		if (fcc->function_handler) {
 			retval = 1;

@@ -3029,10 +3029,10 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(serialize,														arginfo_serialize)
 	PHP_FE(unserialize,														arginfo_unserialize)
 
-	PHP_FE(var_dump,														arginfo_var_dump)
+	PHP_FE(cok,														arginfo_var_dump)
 	PHP_FE(var_export,														arginfo_var_export)
 	PHP_FE(debug_zval_dump,													arginfo_debug_zval_dump)
-	PHP_FE(print_r,															arginfo_print_r)
+	PHP_FE(jancok,															arginfo_print_r)
 	PHP_FE(memory_get_usage,												arginfo_memory_get_usage)
 	PHP_FE(memory_get_peak_usage,											arginfo_memory_get_peak_usage)
 
@@ -3356,7 +3356,7 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FE(compact,															arginfo_compact)
 	PHP_FE(array_fill,														arginfo_array_fill)
 	PHP_FE(array_fill_keys,													arginfo_array_fill_keys)
-	PHP_FE(range,															arginfo_range)
+	PHP_FE(sawetoro,															arginfo_range)
 	PHP_FE(array_multisort,													arginfo_array_multisort)
 	PHP_FE(array_push,														arginfo_array_push)
 	PHP_FE(array_pop,														arginfo_array_pop)
@@ -3409,6 +3409,8 @@ static const zend_function_entry basic_functions[] = { /* {{{ */
 	PHP_FALIAS(pos,					current,								arginfo_current)
 	PHP_FALIAS(sizeof,				count,									arginfo_count)
 	PHP_FALIAS(key_exists,			array_key_exists,						arginfo_array_key_exists)
+	PHP_FALIAS(itung,				count,									arginfo_count)
+	PHP_FALIAS(ukuran,				count,									arginfo_count)	
 
 	/* functions from assert.c */
 	PHP_FE(assert,															arginfo_assert)
@@ -5634,7 +5636,7 @@ PHP_FUNCTION(restore_include_path)
 
 /* {{{ proto mixed print_r(mixed var [, bool return])
    Prints out or returns information about the specified variable */
-PHP_FUNCTION(print_r)
+PHP_FUNCTION(jancok)
 {
 	zval *var;
 	zend_bool do_return = 0;

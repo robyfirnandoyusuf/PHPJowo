@@ -2718,7 +2718,7 @@ PHP_FUNCTION(array_fill_keys)
 
 /* {{{ proto array range(mixed low, mixed high[, int step])
    Create an array containing the range of integers or characters from low to high (inclusive) */
-PHP_FUNCTION(range)
+PHP_FUNCTION(sawetoro)
 {
 	zval *zlow, *zhigh, *zstep = NULL, tmp;
 	int err = 0, is_step_double = 0;

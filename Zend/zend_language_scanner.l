@@ -1258,101 +1258,101 @@ NEWLINE ("\r"|"\n"|"\r\n")
 /* compute yyleng before each rule */
 <!*> := yyleng = YYCURSOR - SCNG(yy_text);
 
-<ST_IN_SCRIPTING>"exit" {
+<ST_IN_SCRIPTING>"metu" {
 	RETURN_TOKEN(T_EXIT);
 }
 
-<ST_IN_SCRIPTING>"die" {
+<ST_IN_SCRIPTING>"pateni" {
 	RETURN_TOKEN(T_EXIT);
 }
 
-<ST_IN_SCRIPTING>"function" {
+<ST_IN_SCRIPTING>"fungsi" {
 	RETURN_TOKEN(T_FUNCTION);
 }
 
-<ST_IN_SCRIPTING>"const" {
+<ST_IN_SCRIPTING>"konst" {
 	RETURN_TOKEN(T_CONST);
 }
 
-<ST_IN_SCRIPTING>"return" {
+<ST_IN_SCRIPTING>"balekno" {
 	RETURN_TOKEN(T_RETURN);
 }
 
-<ST_IN_SCRIPTING>"yield"{WHITESPACE}"from"[^a-zA-Z0-9_\x80-\xff] {
+<ST_IN_SCRIPTING>"hasilno"{WHITESPACE}"teko"[^a-zA-Z0-9_\x80-\xff] {
 	yyless(yyleng - 1);
 	HANDLE_NEWLINES(yytext, yyleng);
 	RETURN_TOKEN(T_YIELD_FROM);
 }
 
-<ST_IN_SCRIPTING>"yield" {
+<ST_IN_SCRIPTING>"hasilno" {
 	RETURN_TOKEN(T_YIELD);
 }
 
-<ST_IN_SCRIPTING>"try" {
+<ST_IN_SCRIPTING>"cobaken" {
 	RETURN_TOKEN(T_TRY);
 }
 
-<ST_IN_SCRIPTING>"catch" {
+<ST_IN_SCRIPTING>"cekel" {
 	RETURN_TOKEN(T_CATCH);
 }
 
-<ST_IN_SCRIPTING>"finally" {
+<ST_IN_SCRIPTING>"akhire" {
 	RETURN_TOKEN(T_FINALLY);
 }
 
-<ST_IN_SCRIPTING>"throw" {
+<ST_IN_SCRIPTING>"uncalno" {
 	RETURN_TOKEN(T_THROW);
 }
 
-<ST_IN_SCRIPTING>"if" {
+<ST_IN_SCRIPTING>"lek" {
 	RETURN_TOKEN(T_IF);
 }
 
-<ST_IN_SCRIPTING>"elseif" {
+<ST_IN_SCRIPTING>"lekliyane" {
 	RETURN_TOKEN(T_ELSEIF);
 }
 
-<ST_IN_SCRIPTING>"endif" {
+<ST_IN_SCRIPTING>"akhirilek" {
 	RETURN_TOKEN(T_ENDIF);
 }
 
-<ST_IN_SCRIPTING>"else" {
+<ST_IN_SCRIPTING>"liyane" {
 	RETURN_TOKEN(T_ELSE);
 }
 
-<ST_IN_SCRIPTING>"while" {
+<ST_IN_SCRIPTING>"naliko" {
 	RETURN_TOKEN(T_WHILE);
 }
 
-<ST_IN_SCRIPTING>"endwhile" {
+<ST_IN_SCRIPTING>"akhirinaliko" {
 	RETURN_TOKEN(T_ENDWHILE);
 }
 
-<ST_IN_SCRIPTING>"do" {
+<ST_IN_SCRIPTING>"kerjakno" {
 	RETURN_TOKEN(T_DO);
 }
 
-<ST_IN_SCRIPTING>"for" {
+<ST_IN_SCRIPTING>"gawe" {
 	RETURN_TOKEN(T_FOR);
 }
 
-<ST_IN_SCRIPTING>"endfor" {
+<ST_IN_SCRIPTING>"akhirigawe" {
 	RETURN_TOKEN(T_ENDFOR);
 }
 
-<ST_IN_SCRIPTING>"foreach" {
+<ST_IN_SCRIPTING>"gawesaben" {
 	RETURN_TOKEN(T_FOREACH);
 }
 
-<ST_IN_SCRIPTING>"endforeach" {
+<ST_IN_SCRIPTING>"akhirigawesaben" {
 	RETURN_TOKEN(T_ENDFOREACH);
 }
 
-<ST_IN_SCRIPTING>"declare" {
+<ST_IN_SCRIPTING>"umumno" {
 	RETURN_TOKEN(T_DECLARE);
 }
 
-<ST_IN_SCRIPTING>"enddeclare" {
+<ST_IN_SCRIPTING>"akhiriumumno" {
 	RETURN_TOKEN(T_ENDDECLARE);
 }
 
@@ -1360,47 +1360,47 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_INSTANCEOF);
 }
 
-<ST_IN_SCRIPTING>"as" {
+<ST_IN_SCRIPTING>"dadi" {
 	RETURN_TOKEN(T_AS);
 }
 
-<ST_IN_SCRIPTING>"switch" {
+<ST_IN_SCRIPTING>"pilihan" {
 	RETURN_TOKEN(T_SWITCH);
 }
 
-<ST_IN_SCRIPTING>"endswitch" {
+<ST_IN_SCRIPTING>"akhiripilihan" {
 	RETURN_TOKEN(T_ENDSWITCH);
 }
 
-<ST_IN_SCRIPTING>"case" {
+<ST_IN_SCRIPTING>"yen" {
 	RETURN_TOKEN(T_CASE);
 }
 
-<ST_IN_SCRIPTING>"default" {
+<ST_IN_SCRIPTING>"gawanan" {
 	RETURN_TOKEN(T_DEFAULT);
 }
 
-<ST_IN_SCRIPTING>"break" {
+<ST_IN_SCRIPTING>"mandheg" {
 	RETURN_TOKEN(T_BREAK);
 }
 
-<ST_IN_SCRIPTING>"continue" {
+<ST_IN_SCRIPTING>"lanjutno" {
 	RETURN_TOKEN(T_CONTINUE);
 }
 
-<ST_IN_SCRIPTING>"goto" {
+<ST_IN_SCRIPTING>"menyang" {
 	RETURN_TOKEN(T_GOTO);
 }
 
-<ST_IN_SCRIPTING>"echo" {
+<ST_IN_SCRIPTING>"tampilno" {
 	RETURN_TOKEN(T_ECHO);
 }
 
-<ST_IN_SCRIPTING>"print" {
+<ST_IN_SCRIPTING>"cithak" {
 	RETURN_TOKEN(T_PRINT);
 }
 
-<ST_IN_SCRIPTING>"class" {
+<ST_IN_SCRIPTING>"kelas" {
 	RETURN_TOKEN(T_CLASS);
 }
 
@@ -1408,15 +1408,15 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_INTERFACE);
 }
 
-<ST_IN_SCRIPTING>"trait" {
+<ST_IN_SCRIPTING>"sipat" {
 	RETURN_TOKEN(T_TRAIT);
 }
 
-<ST_IN_SCRIPTING>"extends" {
+<ST_IN_SCRIPTING>"turunan" {
 	RETURN_TOKEN(T_EXTENDS);
 }
 
-<ST_IN_SCRIPTING>"implements" {
+<ST_IN_SCRIPTING>"ngimpelentasino" {
 	RETURN_TOKEN(T_IMPLEMENTS);
 }
 
@@ -1460,15 +1460,15 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_COALESCE);
 }
 
-<ST_IN_SCRIPTING>"new" {
+<ST_IN_SCRIPTING>"ngggae" {
 	RETURN_TOKEN(T_NEW);
 }
 
-<ST_IN_SCRIPTING>"clone" {
+<ST_IN_SCRIPTING>"klon" {
 	RETURN_TOKEN(T_CLONE);
 }
 
-<ST_IN_SCRIPTING>"var" {
+<ST_IN_SCRIPTING>"variabel" {
 	RETURN_TOKEN(T_VAR);
 }
 
@@ -1504,31 +1504,31 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_EVAL);
 }
 
-<ST_IN_SCRIPTING>"include" {
+<ST_IN_SCRIPTING>"lebokno" {
 	RETURN_TOKEN(T_INCLUDE);
 }
 
-<ST_IN_SCRIPTING>"include_once" {
+<ST_IN_SCRIPTING>"lebokno_pisan" {
 	RETURN_TOKEN(T_INCLUDE_ONCE);
 }
 
-<ST_IN_SCRIPTING>"require" {
+<ST_IN_SCRIPTING>"mbutuhno" {
 	RETURN_TOKEN(T_REQUIRE);
 }
 
-<ST_IN_SCRIPTING>"require_once" {
+<ST_IN_SCRIPTING>"mbutuhno_pisan" {
 	RETURN_TOKEN(T_REQUIRE_ONCE);
 }
 
-<ST_IN_SCRIPTING>"namespace" {
+<ST_IN_SCRIPTING>"jenengruang" {
 	RETURN_TOKEN(T_NAMESPACE);
 }
 
-<ST_IN_SCRIPTING>"use" {
+<ST_IN_SCRIPTING>"gunakno" {
 	RETURN_TOKEN(T_USE);
 }
 
-<ST_IN_SCRIPTING>"insteadof" {
+<ST_IN_SCRIPTING>"minongko" {
     RETURN_TOKEN(T_INSTEADOF);
 }
 
@@ -1536,11 +1536,11 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_GLOBAL);
 }
 
-<ST_IN_SCRIPTING>"isset" {
+<ST_IN_SCRIPTING>"diset" {
 	RETURN_TOKEN(T_ISSET);
 }
 
-<ST_IN_SCRIPTING>"empty" {
+<ST_IN_SCRIPTING>"kosong" {
 	RETURN_TOKEN(T_EMPTY);
 }
 
@@ -1548,11 +1548,11 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_HALT_COMPILER);
 }
 
-<ST_IN_SCRIPTING>"static" {
+<ST_IN_SCRIPTING>"stati" {
 	RETURN_TOKEN(T_STATIC);
 }
 
-<ST_IN_SCRIPTING>"abstract" {
+<ST_IN_SCRIPTING>"abstrak" {
 	RETURN_TOKEN(T_ABSTRACT);
 }
 
@@ -1560,19 +1560,19 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_FINAL);
 }
 
-<ST_IN_SCRIPTING>"private" {
+<ST_IN_SCRIPTING>"privat" {
 	RETURN_TOKEN(T_PRIVATE);
 }
 
-<ST_IN_SCRIPTING>"protected" {
+<ST_IN_SCRIPTING>"diproteksi" {
 	RETURN_TOKEN(T_PROTECTED);
 }
 
-<ST_IN_SCRIPTING>"public" {
+<ST_IN_SCRIPTING>"publik" {
 	RETURN_TOKEN(T_PUBLIC);
 }
 
-<ST_IN_SCRIPTING>"unset" {
+<ST_IN_SCRIPTING>"busak" {
 	RETURN_TOKEN(T_UNSET);
 }
 
@@ -1580,11 +1580,11 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_DOUBLE_ARROW);
 }
 
-<ST_IN_SCRIPTING>"list" {
+<ST_IN_SCRIPTING>"daftar" {
 	RETURN_TOKEN(T_LIST);
 }
 
-<ST_IN_SCRIPTING>"array" {
+<ST_IN_SCRIPTING>"larik" {
 	RETURN_TOKEN(T_ARRAY);
 }
 
@@ -1688,11 +1688,11 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_BOOLEAN_AND);
 }
 
-<ST_IN_SCRIPTING>"OR" {
+<ST_IN_SCRIPTING>"utowo" {
 	RETURN_TOKEN(T_LOGICAL_OR);
 }
 
-<ST_IN_SCRIPTING>"AND" {
+<ST_IN_SCRIPTING>"ambek" {
 	RETURN_TOKEN(T_LOGICAL_AND);
 }
 
@@ -1932,7 +1932,7 @@ string:
 }
 
 
-<INITIAL>"<?php"([ \t]|{NEWLINE}) {
+<INITIAL>"<?phpjowo"([ \t]|{NEWLINE}) {
 	HANDLE_NEWLINE(yytext[yyleng-1]);
 	BEGIN(ST_IN_SCRIPTING);
 	if (PARSER_MODE()) {

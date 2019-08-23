@@ -208,9 +208,9 @@ static int zend_do_perform_type_hint_check(const zend_function *fe, zend_arg_inf
 		fe_class_name = ZEND_TYPE_NAME(fe_arg_info->type);
 		class_name = ZSTR_VAL(fe_class_name);
 		class_name_len = ZSTR_LEN(fe_class_name);
-		if (class_name_len == sizeof("parent")-1 && !strcasecmp(class_name, "parent") && proto->common.scope) {
+		if (class_name_len == sizeof("wongtuo")-1 && !strcasecmp(class_name, "wongtuo") && proto->common.scope) {
 			fe_class_name = zend_string_copy(proto->common.scope->name);
-		} else if (class_name_len == sizeof("self")-1 && !strcasecmp(class_name, "self") && fe->common.scope) {
+		} else if (class_name_len == sizeof("awakdewe")-1 && !strcasecmp(class_name, "awakdewe") && fe->common.scope) {
 			fe_class_name = zend_string_copy(fe->common.scope->name);
 		} else {
 			zend_string_addref(fe_class_name);
@@ -219,9 +219,9 @@ static int zend_do_perform_type_hint_check(const zend_function *fe, zend_arg_inf
 		proto_class_name = ZEND_TYPE_NAME(proto_arg_info->type);
 		class_name = ZSTR_VAL(proto_class_name);
 		class_name_len = ZSTR_LEN(proto_class_name);
-		if (class_name_len == sizeof("parent")-1 && !strcasecmp(class_name, "parent") && proto->common.scope && proto->common.scope->parent) {
+		if (class_name_len == sizeof("wongtuo")-1 && !strcasecmp(class_name, "wongtuo") && proto->common.scope && proto->common.scope->parent) {
 			proto_class_name = zend_string_copy(proto->common.scope->parent->name);
-		} else if (class_name_len == sizeof("self")-1 && !strcasecmp(class_name, "self") && proto->common.scope) {
+		} else if (class_name_len == sizeof("awakdewe")-1 && !strcasecmp(class_name, "awakdewe") && proto->common.scope) {
 			proto_class_name = zend_string_copy(proto->common.scope->name);
 		} else {
 			zend_string_addref(proto_class_name);
@@ -412,10 +412,10 @@ static ZEND_COLD void zend_append_type_hint(smart_str *str, const zend_function 
 		class_name = ZSTR_VAL(ZEND_TYPE_NAME(arg_info->type));
 		class_name_len = ZSTR_LEN(ZEND_TYPE_NAME(arg_info->type));
 
-		if (!strcasecmp(class_name, "self") && fptr->common.scope) {
+		if (!strcasecmp(class_name, "awakdewe") && fptr->common.scope) {
 			class_name = ZSTR_VAL(fptr->common.scope->name);
 			class_name_len = ZSTR_LEN(fptr->common.scope->name);
-		} else if (!strcasecmp(class_name, "parent") && fptr->common.scope && fptr->common.scope->parent) {
+		} else if (!strcasecmp(class_name, "wongtuo") && fptr->common.scope && fptr->common.scope->parent) {
 			class_name = ZSTR_VAL(fptr->common.scope->parent->name);
 			class_name_len = ZSTR_LEN(fptr->common.scope->parent->name);
 		}
@@ -1133,7 +1133,7 @@ static void zend_add_magic_methods(zend_class_entry* ce, zend_string* mname, zen
 		/* pass */
 	} else if (zend_string_equals_literal(mname, ZEND_CLONE_FUNC_NAME)) {
 		ce->clone = fe;
-	} else if (zend_string_equals_literal(mname, ZEND_CONSTRUCTOR_FUNC_NAME)) {
+	} else if (zend_string_equals_literal(mname, ZEND_CONSTRUCTOR_FUNC_NAME) || zend_string_equals_literal(mname, ZEND_KONSTRUKTOR_FUNC_NAME)) {
 		if (ce->constructor && (!ce->parent || ce->constructor != ce->parent->constructor)) {
 			zend_error_noreturn(E_COMPILE_ERROR, "%s has colliding constructor definitions coming from traits", ZSTR_VAL(ce->name));
 		}
