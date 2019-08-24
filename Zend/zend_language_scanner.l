@@ -1460,7 +1460,7 @@ NEWLINE ("\r"|"\n"|"\r\n")
 	RETURN_TOKEN(T_COALESCE);
 }
 
-<ST_IN_SCRIPTING>"ngggae" {
+<ST_IN_SCRIPTING>"nggae" {
 	RETURN_TOKEN(T_NEW);
 }
 
